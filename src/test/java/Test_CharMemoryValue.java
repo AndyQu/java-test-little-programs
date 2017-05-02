@@ -29,10 +29,11 @@ public class Test_CharMemoryValue {
     @Test
     public void escapeJava(){
         //下面这一行代码定义了一个字符串,那么Java程序应该是将每一个字符都存储为一个char类型(数值).
-        String originalStr="我的名字是andy qu\t!";
+        String originalStr="我andy\t\"\\'!";
+        System.out.println(String.format("origin text:%s",originalStr));
         String escapedStr = StringEscapeUtils.escapeJava(originalStr);
-        System.out.println(escapedStr);
+        System.out.println(String.format("escaped text:%s",escapedStr));
         String deescapedStr=StringEscapeUtils.unescapeJava(escapedStr);
-        System.out.println(deescapedStr);
+        System.out.println(String.format("deescaped text:%s",deescapedStr));
     }
 }
