@@ -1,6 +1,9 @@
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.Random;
 
 /**
  * 在程序运行时刻,char/String等字符串在内存中是如何存储的呢?
@@ -40,6 +43,13 @@ import org.junit.Test;
  *      used for 16-bit char values that are code units of the UTF-16 encoding
  *
  */
+
+/**
+ * How to Run:
+ *  ./gradlew clean -Dtest.single=Test_CharMemoryValue test --info
+ *  ./gradlew clean test --tests *Test_CharMemoryValue.toCodePoint --info
+ *
+ */
 public class Test_CharMemoryValue {
     /*
      * char是primitive类型,应该是直接存储其数值,从0x0000到0xFFFF,这个数值直接对应Unicode Code Point吗?
@@ -76,6 +86,25 @@ public class Test_CharMemoryValue {
         System.out.println(textFromCharArray);
         Assert.assertEquals(str,textFromCharArray);
     }
+
+    @Test
+    public void codePointToString(){
+        for(int codePoint=0x10140;codePoint<0x10182;codePoint++){
+            String str=new String(Character.toChars(codePoint));
+            System.out.println(str);
+        }
+    }
+
+    @Test
+    public void toCodePoint(){
+//        String str=new String(Character.toChars(0x10140));
+        String str="\uD800\uDD4F";
+
+        System.out.println(String.format("%s:%d",str,str.toCharArray().length));
+        int codePoint = Character.toCodePoint(str.toCharArray()[0],str.toCharArray()[1]);
+        System.out.println(codePoint);
+    }
+
     @Test
     public void escapeJava(){
         //下面这一行代码定义了一个字符串,那么Java程序应该是将每一个字符都存储为一个char类型(数值).
